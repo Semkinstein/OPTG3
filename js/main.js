@@ -26,15 +26,15 @@ function init()
 
     var light = new THREE.DirectionalLight(0xffffff);
     // позиция источника освещения
-    light.position.set( 200, 100, 0 );
+    light.position.set( 1500, 500, 1000);
     // направление освещения
     light.target = new THREE.Object3D();
-    light.target.position.set( 0, 0, 0 );
+    light.target.position.set(  N/2, 0, N/2 );
     scene.add(light.target);
     // включение расчёта теней
     light.castShadow = true;
     // параметры области расчёта теней
-    light.shadow = new THREE.LightShadow( new THREE.PerspectiveCamera( 50, 1, 1200, 2500 ) );
+    light.shadow = new THREE.LightShadow( new THREE.PerspectiveCamera( 70, 1, 1, 2500 ) );
     light.shadow.bias = 0.0001;
     // размер карты теней
     light.shadow.mapSize.width = 2048;
@@ -48,6 +48,9 @@ function init()
     renderer.shadowMap.type = THREE.PCFShadowMap;
     container.appendChild( renderer.domElement );
     window.addEventListener( 'resize', onWindowResize, false );
+
+    var helper = new THREE.CameraHelper(light.shadow.camera);
+    scene.add( helper );
 
     mixer = new THREE.AnimationMixer( scene );
     CreateGeometry();
@@ -121,7 +124,7 @@ function CreateGeometry(){
                 side:THREE.DoubleSide
             }));
             mesh.receiveShadow = true;
-            mesh.castShadow = true;
+            //mesh.castShadow = true;
             scene.add(mesh);
 
             ///////////////////////////////////////////////////////////// sky
@@ -183,7 +186,7 @@ function loadModel(path, oname, mname, count)
                 } );
 
                 model = object;
-                model.receiveShadow = true;
+                //model.receiveShadow = true;
                 model.castShadow = true;
                 scene.add( model.clone() );
             }
@@ -212,7 +215,7 @@ function loadAnimatedModel(path, count)
         mesh.scale.set( 0.2, 0.2, 0.2 );
 
         mesh.castShadow = true;
-        mesh.receiveShadow = true;
+        //mesh.receiveShadow = true;
         mesh.traverse( function ( child )
         {
         if ( child instanceof THREE.Mesh )
